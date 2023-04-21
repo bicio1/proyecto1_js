@@ -1,16 +1,17 @@
 class Verduras{
-    constructor(Fruta,Color,Importada){
+    constructor(numeracion,Fruta,Color,Importada){
+        this.numeracion = numeracion;
         this.Fruta = Fruta;
         this.Color = Color;
         this.Importada = Importada;
-        this.Cantidad = 1
+        this.cantidad = 1
     }
 }
 
 const listado = [
-    new Verduras("bananas","verde","argentina"),
-    new Verduras("manzanas","roja","peru"),
-    new Verduras("peras","verde","chile"),
+    new Verduras("1","bananas","amarillas","de Argentina"),
+    new Verduras("2","manzanas","rojas","de Peru"),
+    new Verduras("3","peras","verdes","de Chile"),
 ]
 
 
@@ -21,28 +22,28 @@ class ControladorVerduras{
 
     cargarProducto(){
         this.listado = [
-            new Verduras("bananas","verde","argentina"),
-            new Verduras("manzanas","roja","peru"),
-            new Verduras("peras","verde","chile"),
+            new Verduras("1","bananas","amarillas","de Argentina"),
+            new Verduras("2","manzanas","rojas","de Peru"),
+            new Verduras("3","peras","verdes","de Chile"),
         ]
     }
 
     mostrarProducto(){
         let acumulador = ""
         this.listado.forEach(element => {
-            acumulador += "\nfruta: "+ element.Fruta+", color: " + element.Color+ ", importada: " + element.Importada + ", precio: " +element.precio
+            acumulador += "\n"+ element.Fruta + " " + element.Color + " " + element.Importada
         });
         return (acumulador)
     }
 
     agregarALista(){
-        let Combo = new Verduras (Number(prompt("Ingrese el fruto que quiera: ")),prompt("Ingrese el color: "),prompt("Ingrese la importacion: "));
+        let Combo = new Verduras (Number(prompt("¡Que desea? \n 1) bananas \n 2) manzanas \n 3) peras ")),prompt("Ingrese el color: "),prompt("Ingrese la importacion: "));
         this.listado.push(Combo)
     }
     
     ponerPrecio(){
         this.listado.forEach(function(Fruta){
-            Fruta.precio = Number(prompt("Ahora por favor, ingrese el precio sugerido de las: " + Fruta.Importada + " "+ Fruta.Color))})
+            Fruta.precio = Number(prompt("Ahora por favor, ingrese el precio sugerido de las Frutas " + Fruta.Importada + " "+ Fruta.Color))})
         
     }
 
@@ -53,7 +54,6 @@ class ControladorVerduras{
     }
 }
 
-
 class ControladorCarrito{
     constructor(){
         this.listaCarrito = []
@@ -63,7 +63,7 @@ class ControladorCarrito{
         this.listaCarrito.push(producto)
     }
 
-    eliminarCarrito(id){
+    eliminarCarrito(Fruta){
         this.listaCarrito = this.listaCarrito.filter(elemento => elemento.Fruta !== Fruta)
         return this.listaCarrito
     }
@@ -71,7 +71,7 @@ class ControladorCarrito{
     mostrarCarrito(){
         let mostrar = ""
         this.listaCarrito.forEach(producto => {
-            mostrar += "fruta: " + producto.Fruta  + " color: " + producto.Color  + " importada: " + producto.Importada  + " precio: " +  producto.precio + " cantidad" + producto.cantidad +" "+ "\n" 
+            mostrar += producto.Fruta + producto.Color + producto.Importada  + " precio: " +  producto.precio + " cantidad" + producto.cantidad +" "+ "\n" 
         })
         return mostrar
     }
@@ -101,7 +101,7 @@ let repetir = "no"
 verduraControlador.cargarProducto()
 
 while((promptInicial != "si") && (promptInicial != "no")){
-    promptInicial = prompt("Bienvenido a La fruteria online, Frutas disponibles: \n" + verduraControlador.mostrarProducto() + "\n Desea sugerir algun combo? \n SI\n NO" ).toLowerCase()
+    promptInicial = prompt("¡Bienvenido a La Fruteria con Precios a Conciencia!\n Frutas disponibles: \n" + verduraControlador.mostrarProducto() + "\n ¿Quiere empezar su pedido? \n SI\n NO" ).toLowerCase()
     if(promptInicial == "si"){
         verduraControlador.agregarALista()
         verduraControlador.ponerPrecio()
@@ -111,8 +111,8 @@ while((promptInicial != "si") && (promptInicial != "no")){
 }
 
 do{
-id = prompt("Ingrese la fruta para agregar al carrito" )
-VerduraEncontrada = verduraControlador.buscarproducto(id)
+Fruta = prompt("Ingrese la fruta para agregar al carrito" )
+VerduraEncontrada = verduraControlador.buscarproducto(Fruta)
 carritoControlador.agregarAlCarrito(VerduraEncontrada)
 rta = prompt("Ingrese 'ESC' para salir o Tecla cualquiera para seguir").toUpperCase()
 }
@@ -122,7 +122,7 @@ eliminar = prompt("Desea eliminar algun producto del carrito? SI \n NO").toLower
 if(eliminar == "no"){
     alert("El total a pagar es de " + carritoControlador.calcularTotal())
 }else if( eliminar == "si"){
-    carritoControlador.eliminarCarrito(Number(prompt("Ingrese el id del producto a eliminar")))
+    carritoControlador.eliminarCarrito(Number(prompt("Ingrese la fruta a eliminar")))
     alert(carritoControlador.mostrarCarrito())
     alert("El total a pagar es de " + carritoControlador.calcularTotal())
 }
